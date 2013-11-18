@@ -48,7 +48,8 @@ int DBPool::InitDBPool(int conn_num){
 	for(int i =0 ; i <conn_num; i++){
 		p_conn		=	new DB();
 		if( 0 == DBConnect(p_conn)){
-			m_connMap.insert(pair<DB*,int>(p_conn,DB_NOTTAKEN)); 
+			m_poolInfo[m_curSize].first=p_conn;
+			m_poolInfo[m_curSize].second=DB_NOTTAKEN;
 			m_curSize++;
 		}
 	}
@@ -62,14 +63,14 @@ int DBPool::InitDBPool(int conn_num){
 DB*	DBPool::GetDB(){
 
 	::EnterCriticalSection(&m_sect);
-	DBMAP::iterator it	=	m_connMap.begin();
+
 	DB*		p_conn =NULL;
 	//加锁
 
-	for(;it != m_connMap.end()	;it++){
+	for(int i =0; i < m_curSize ; i++){
 
-			if(it->second == DB_NOTTAKEN){
-				p_conn	=	it->first;
+			if(m_poolInfo[i].second == DB_NOTTAKEN){
+				p_conn	=	m_poolInfo[i].first;
 				
 				if(p_conn && !p_conn->isConnected()){
 					/* m_connMap.erase(it++);
@@ -78,11 +79,11 @@ DB*	DBPool::GetDB(){
 					DBConnect(p_conn);
 				}
 
-				it->second	=	DB_TAKEN;
+				m_poolInfo[i].second	=	DB_TAKEN;
 				//开锁	
 				m_nTakenNum++;
 				::LeaveCriticalSection(&m_sect);
-				return it->first;
+				return p_conn;
 			}
 			
 	}
@@ -93,7 +94,8 @@ DB*	DBPool::GetDB(){
 		if(p_conn == NULL)	return NULL;
 
 		if( 0 == DBConnect(p_conn)){
-			m_connMap.insert(make_pair(p_conn,DB_NOTTAKEN)); 
+			m_poolInfo[m_curSize].first=p_conn;
+			m_poolInfo[m_curSize].second=DB_TAKEN;
 			m_curSize++;
 			//开锁	
 			::LeaveCriticalSection(&m_sect);
@@ -115,12 +117,11 @@ void	DBPool::DestoryPool(){
 	//加锁
 	::EnterCriticalSection(&m_sect);
 
-	for(;it != m_connMap.end()	;	it++){
-		it->first->Close();
-		delete (it->first);
+	for(int i =0;i<m_curSize ;	i++){
+		m_poolInfo[i].first->Close();
+		delete (m_poolInfo[i].first);
 	}
-
-	m_connMap.clear();
+ 
 	m_curSize	=	0;
 	//去掉锁
 	::LeaveCriticalSection(&m_sect);
@@ -134,15 +135,25 @@ void	DBPool::DestoryPool(){
 void	DBPool::DestoryDB(DB* p_conn){
 	
 	if(p_conn){
-
-		::EnterCriticalSection(&m_sect);
 		p_conn->Close();
-		m_curSize--;
-		DBMAP::iterator it	= m_connMap.find(p_conn);
-		if(it->second == DB_TAKEN){
-				m_nTakenNum--;
+		::EnterCriticalSection(&m_sect);
+	
+		int num		=		m_curSize;
+		for(int i=0,start=0 ;i<num;i++){
+			if(start==0 && m_poolInfo[i].first == p_conn){
+				start = 1;
+				m_curSize--;
+				continue;
+			}
+
+			if(start){
+
+				m_poolInfo[i-1].first	=	m_poolInfo[i].first	;
+				m_poolInfo[i-1].second	=	m_poolInfo[i].second	;
+			}
+
+
 		}
-		m_connMap.erase(it);
 		SAFE_DELETE(p_conn);
 		::LeaveCriticalSection(&m_sect);
 	}
@@ -154,12 +165,20 @@ DB * DBPool::CreateDB(){
 	return NULL;
 }
 
-void DBPool::ReleaseDB(DB* conn){
+void DBPool::ReleaseDB(DB* p_conn){
 	
-	if(conn){
+	if(p_conn){
 		//加锁
 		::EnterCriticalSection(&m_sect);
-		m_connMap[conn]	=	DB_NOTTAKEN;	
+ 
+		for(int i=0,start=0 ;i<m_curSize;i++){
+			if( m_poolInfo[i].first == p_conn){
+			 
+				m_poolInfo[i].second	=	DB_NOTTAKEN	;
+			}
+
+
+		}	
 		m_nTakenNum--;
 		//开锁	
 		::LeaveCriticalSection(&m_sect);

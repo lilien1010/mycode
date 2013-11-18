@@ -63,47 +63,10 @@ int main(){
 	db->Close();
 
 	DBPool * pool	=	DBPool::GetInstance();
-	pool->ConnPool("192.168.1.69","hellotalk","root","123456",4);
+	pool->ConnPool("192.168.1.69","hellotalk","root","123456",6);
 
 
-
-/*
-	p_db->Select("select * from hellotalk.HT_USER_LANG limit 1");
-  
-	while (r = p_db->FetchRow()){
-		printf("%s\t%s\t%s\t%s\t%s\t%s\n", r[0], r[1], r[2], r[3], r[4], r[5], r[6]);
-	}
-*/
-	for(int i =  0 ;i < 3000 ; i++){
-
-		DB* p_conn	=	pool->GetDB();
-		
-		if (p_conn == NULL)
-		{
-				Sleep(100);
-				WriterPrintf("Get a NULL  DB waitting 100ms\n"); 
-				continue;
-		}
-		char** r	=	NULL;
-
-		int ret =	p_conn->Select("SELECT SQL_NO_CACHE * FROM hellotalk.userinfo LEFT JOIN hellotalk.userstatus USING(username) WHERE nickname LIKE '%po%' AND username IN (SELECT username FROM hellotalk.deletehideuser)");
- 
-		WriterPrintf("select return is %d \n running in %d， 连接池数量 is %d,and 取走的数量=%d,连接query次数=%d \n\n",
-			ret,GetCurrentThreadId(),pool->GetDbNum(),pool->GetTakenNum(),p_conn->GetSelectCount());
-
-		
-/*
-		if(p_conn->GetSelectCount()>80){
-			pool->DestoryDB(p_conn);
-		}else*/{
-			pool->ReleaseDB(p_conn);
-		}
-	
-		 Sleep(10);
-	
-	 }
-		return 0;
-		for(int i =  0 ;i < 8 ; i++){
+		for(int i =  0 ;i < 16 ; i++){
 				HANDLE hHandle = (HANDLE)_beginthreadex(NULL, 0, func, NULL, 0, NULL);
 				if(hHandle == INVALID_HANDLE_VALUE){
 					printf(" create Thread INVALID_HANDLE_VALUE");
