@@ -3,7 +3,7 @@
 #include <sstream>
 
 //用来表示每一种牌和可以结合的拍的数组
-char REL[CARDNUM ][RELMAX]={
+char REL[MAX_CARD_NUM_ID][RELMAX]={
 	{0},
 	{4,1,2,3,11},       //xiao 1
 	{6,2,3,4,7,10,12},  //xiao 2
@@ -49,8 +49,7 @@ int CardBusi::start()
 	m_CardParent->bestChildren = 0;
 	m_CardParent->parent = NULL;
 	mulitArray(m_MyCard,1,m_CardParent);
-	SelectBest(m_CardParent);
-	CARDTYPE card2[CARDNUM]={0};
+	SelectBest(m_CardParent); 
 	//memcpy(card2,m_MyCard,CARDNUM*sizeof(CARDTYPE));
 	//showBestCard(m_CardParent,m_MyCard);
 	return 1;
@@ -59,7 +58,7 @@ int CardBusi::start()
 void CardBusi::GetAllCard(string&str){
 	
 	ostringstream ostr; 
-	 for(int i = 1 ; i <CARDNUM ; i++){
+	 for(int i = 1 ; i <=MAX_CARD_NUM ; i++){
 		if(m_MyCard[i])
 			ostr<<i<<","<<endl; 
 	 }
@@ -72,8 +71,8 @@ int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,int deep,Node*pNode
  
 	if(pNode==NULL && deep==0){ 
 		pNode	=	m_CardParent;
-		memset(out,0,sizeof(CARDTYPE)*(CARDNUM-1));
-		memset(leftcard,0,sizeof(CARDTYPE)*(CARDNUM-1));
+		memset(out,0,sizeof(CARDTYPE)*(MAX_CARD_NUM));
+		memset(leftcard,0,sizeof(CARDTYPE)*(MAX_CARD_NUM));
 	}
 	if(pNode ){
 		if(pNode->parent){
@@ -87,7 +86,7 @@ int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,int deep,Node*pNode
 		}
 		GetOrderedCard(out,leftcard,deep,pNode->bestChildren);
 	}else{ 
-		for(int i = 1 ; i <CARDNUM ; i++){
+		for(int i = 1 ; i <=MAX_CARD_NUM ; i++){
 
 			if(m_MyCard[i]){
 				for(int k = 0,start=leftcard[0] ;k<m_MyCard[i];k++) 
@@ -104,13 +103,13 @@ int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,int deep,Node*pNode
 
 void CardBusi::RandCard()
 {	
-	memset(m_MyCard,0,sizeof(CARDTYPE)*CARDNUM);
+	memset(m_MyCard,0,sizeof(CARDTYPE)*(MAX_CARD_NUM+1));
 	srand((unsigned)time(0));
-	for(int i = 1 ; i <= 15 ; i++){
+	for(int i = 1 ; i < 15 ; i++){
 		
-		int pai	= rand()%CARDNUM;
+		int pai	= rand()%(MAX_CARD_NUM+1);
 		if(pai==0) pai++;
-		if(m_MyCard[pai]<=4)  m_MyCard[pai]++;
+		if(m_MyCard[pai]<=MAX_CARD_NUM)  m_MyCard[pai]++;
 		else srand((unsigned)time(0));
 	}
 	
@@ -152,7 +151,7 @@ int CardBusi::mulitArray(CARDTYPE *Card,int startPos, Node * pNode ){
     int SecondTaken             =   0;
     int ThirdTaken              =   0;
    
-    for(int i = startPos ; i < CARDNUM;i++){
+    for(int i = startPos ; i <= MAX_CARD_NUM;i++){
 
         if(0 == Card[i]) continue;
         Counter            =   0;
@@ -209,8 +208,9 @@ void CardBusi::DeleteTree(Node*pNode){
 		for (int k = 0; k < size; k++) {
 
 			DeleteTree(pNode->children.at(k));
-			SAFE_DELETE(pNode);
+			
 		}
+		SAFE_DELETE(pNode);
 	}
 
 }
@@ -249,7 +249,7 @@ void CardBusi::showBestCard(Node*pNode,CARDTYPE *my_card){
 	char str[256]={0};
 	if(pNode  ){
 		if(pNode->parent){
-			sprintf( str,"A= %d, B= %d  C= %d \n",(pNode->val[0]), (pNode ->val[1]),(pNode->val[2]));
+			//sprintf( str,"A= %d, B= %d  C= %d \n",(pNode->val[0]), (pNode ->val[1]),(pNode->val[2]));
 			str1	=	str;
 			my_card[pNode->val[0]]--;
 			my_card[pNode->val[1]]--;
@@ -260,9 +260,9 @@ void CardBusi::showBestCard(Node*pNode,CARDTYPE *my_card){
 		showBestCard(pNode->bestChildren,my_card);
 	}else
 	{
-		sprintf( str,"  card left ="  );	
+		//sprintf( str,"  card left ="  );	
 		str1	=	str;
-		for(int i = 1 ; i <CARDNUM ; i++){
+		for(int i = 1 ; i <= MAX_CARD_NUM ; i++){
 
 			if(my_card[i]){
 				for(int k = 0 ;k<my_card[i];k++) 
@@ -317,11 +317,11 @@ int CardBusi::CalScore(CARDTYPE*zuhe){
 
 //去掉蛇
 void CardBusi::TakeShe(CARDTYPE * CARD){
-	for (int i = 1,k=0; i< CARDNUM; i++) {
-		if(CARD [i]>=4){
+	for (int i = 1,k=0; i< MAX_CARD_NUM; i++) {
+		if(CARD [i]>=MAX_CARD_NUM){
 			CARD[i]=0;
 			m_Shenum++;
-			m_TakenCard+=4;
+			m_TakenCard+=MAX_CARD_NUM;
 			m_She[k++]=i;
 		}
 	}
@@ -333,7 +333,7 @@ void CardBusi::TakeShe(CARDTYPE * CARD){
 void CardBusi::TakeKan(CARDTYPE * CARD){
 
 
-	for (int i=1,k=0; i< CARDNUM; i++) {
+	for (int i=1,k=0; i<= MAX_CARD_NUM; i++) {
 		if(CARD [i]==3){
 			CARD[i]=0;
 			CARD[i]=0;

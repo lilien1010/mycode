@@ -224,7 +224,7 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 	SetDlgItemText(IDC_EDIT_INFOLIST,show2);
 
 
-	//SAFE_DELETE(pCard);
+	SAFE_DELETE(pCard);
 }
 
 void CCardClientDlg::OnLbnSelchangeListHandcard()
