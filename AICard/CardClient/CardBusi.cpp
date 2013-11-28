@@ -86,7 +86,7 @@ int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,int deep,Node*pNode
 		}
 		GetOrderedCard(out,leftcard,deep,pNode->bestChildren);
 	}else{ 
-		for(int i = 1 ; i <=MAX_CARD_NUM ; i++){
+		for(int i = 1 ; i <= MAX_CARD_NUM ; i++){
 
 			if(m_MyCard[i]){
 				for(int k = 0,start=leftcard[0] ;k<m_MyCard[i];k++) 
@@ -107,7 +107,7 @@ void CardBusi::RandCard()
 	srand((unsigned)time(0));
 	for(int i = 1 ; i < 15 ; i++){
 		
-		int pai	= rand()%(MAX_CARD_NUM+1);
+		int pai	= rand()%(MAX_CARD_NUM_ID);
 		if(pai==0) pai++;
 		if(m_MyCard[pai]<=MAX_CARD_NUM)  m_MyCard[pai]++;
 		else srand((unsigned)time(0));

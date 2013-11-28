@@ -4,11 +4,13 @@
 #define SAFE_DELETE(x)  {if(x){delete x;x=NULL;}}
 #endif
 
-#define CARDNUM    21
+#define  MAX_CARD_NUM		20
+#define  MAX_CARD_NUM_ID	21
+#define  MAX_HAND_CARD_NUM   14
 #define ZUHENUM    4
 #define RELMAX     7
 #define HOLDCARDNUM      15 
-
+#define MAX_CARD_NUM     4
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

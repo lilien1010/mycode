@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DeskBusi.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -237,6 +241,10 @@
 			</File>
 			<File
 				RelativePath=".\CardClientDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DeskBusi.h"
 				>
 			</File>
 			<File
