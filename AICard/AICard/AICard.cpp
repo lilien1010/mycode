@@ -40,12 +40,12 @@ char REL[CARDNUM ][RELMAX]={
     {3,9,10,19},        //xiao 9
     {2,10,20},
     {3,11,12,13},       //da 1
-    {3,12,13,14,17,20},
+    {5,12,13,14,17,20},
     {3,13,14,15},       //da 3
     {3,14,15,16},
     {3,15,16,17},       //da 5
     {3,16,17,18},
-    {3,17,18,19,20},    //da 7
+    {4,17,18,19,20},    //da 7
     {3,18,19,20},
     {2,19,20},
     {1,20}
@@ -88,7 +88,7 @@ int TakeShe(char *);
 int TakeKan(char *);
 int f0(Node *pNode,char * Card);
 void showCardList(Node * pNode);
-int SetNode(Node* pNode,int Counter,char* zuhe,char*Card);
+int SetNode(Node* pNode,int couter,char* zuhe,char*Card);
 int mulitArray2(char *Card,int startPos, Node * pNode );
 void showCard(char*zuhe);
 int CalScore(char*zuhe);
@@ -113,23 +113,23 @@ void ShowCardLeft(char*Card){
 }
 
 
-int SetNode(Node* pNode,int Counter,char* zuhe,char*Card){
+int SetNode(Node* pNode,int couter,char* zuhe,char*Card){
     if(g_TakenCard >= HOLDCARDNUM || g_TakenCard >= HOLDCARDNUM-1)
         return 0 ;
    
    
     Node * ptNode   = new Node;
-    for (int i=0 ;i<Counter;i++) {
+    for (int i=0 ;i<couter;i++) {
         ptNode->val[i]=zuhe[i];
     }
-    g_TakenCard+=Counter;
+    g_TakenCard+=couter;
     pNode->children.push_back(ptNode);
     pNode->NodeType = 0;            //设置父亲为非父亲节点
     ptNode->parent  = pNode;        //设置父亲节点
     ptNode->score  = CalScore(zuhe);//为该节点计算得分
     ptNode->bestChildren = 0;     //忽略最好子节点ID
     ptNode->NodeType = 1;           //默认为叶子节点
-  //  showCard(zuhe);
+   //if(zuhe[0]==12) showCard(zuhe);
   //  ShowCardLeft(Card);
   //cout<<"All num="<<g_TakenCard<<endl;
     if(g_TakenCard < 12)
@@ -139,13 +139,13 @@ int SetNode(Node* pNode,int Counter,char* zuhe,char*Card){
         return 0 ;
 
 /*
-    for (int k=0; k<Counter; k++) {
+    for (int k=0; k<couter; k++) {
         Card[zuhe[k]]++;
     }
 
     cout<<"card return after";
     ShowCardLeft(Card);
-*/    g_TakenCard-=Counter;
+*/    g_TakenCard-=couter;
     return 1;
 }
 
@@ -154,54 +154,60 @@ int mulitArray2(char *Card,int startPos, Node * pNode ){
    
    
     char TokenCardNo[ZUHENUM]   =   {0};
-    int Counter                 =   0;
-    int NextRelNo               =   0;
+    int couter                 =   0;
+    int FirstTaken               =   0;
     int SecondTaken             =   0;
     int ThirdTaken              =   0;
-   
+   // cout<<"we start another round taken"<<endl;
     for(int i = startPos ; i < CARDNUM;i++){
 
         if(0 == Card[i]) continue;
-        Counter            =   0;
-        ThirdTaken=SecondTaken = 0;
+        couter            =   0;
+        FirstTaken=ThirdTaken=SecondTaken = 0;
         memset(TokenCardNo, 0, sizeof(TokenCardNo));
         for (int k1  =   1; k1 <= REL[i][0]  ;k1++) {
             if(0 == Card[REL[i][k1]]) continue;
-            SecondTaken = TokenCardNo[Counter]=REL[i][k1];
-            Counter ++;
+            FirstTaken = TokenCardNo[couter]=REL[i][k1];
+            couter ++;
             Card[REL[i][k1]]--;
-           
-            // SetNode(pNode,Counter,TokenCardNo,Card);
-            for (int k2  =   1; k2 <= REL[SecondTaken][0] ;k2++) {
+            
+			if(FirstTaken==12){
+				//cout<<"@@we FirstTaken = " << (int) FirstTaken<<endl; 	
+			}
+            // SetNode(pNode,couter,TokenCardNo,Card);
+            for (int k2  =   1; k2 <= REL[FirstTaken][0] ;k2++) {
                
-                if(0 == Card[REL[SecondTaken][k2]]) continue;
+                if(0 == Card[REL[FirstTaken][k2]]) continue;
                
-                ThirdTaken=TokenCardNo[Counter]=REL[SecondTaken][k2];
-                Counter ++;
-                Card[REL[SecondTaken][k2]]--;
-                //SetNode(pNode,Counter,TokenCardNo,Card);
-               
-               
-                for (int k3  =   1; k3 <= REL[ThirdTaken][0] ;k3++) {
-                    if( 0 == Card[REL[ThirdTaken][k3]]) continue;
-                    TokenCardNo[Counter]=REL[ThirdTaken][k3];
-                    Counter ++;
-                    Card[REL[ThirdTaken][k3]]--;
-                    SetNode(pNode,Counter,TokenCardNo,Card);
-                    //recoverCard(Counter,TokenCardNo,Card);
-                    Card[REL[ThirdTaken][k3]]++;
-                    Counter--;
-                   
+                SecondTaken=TokenCardNo[couter]=REL[FirstTaken][k2];
+                couter ++;
+                Card[SecondTaken]--;
+                //SetNode(pNode,couter,TokenCardNo,Card);
+				if(SecondTaken==17){
+						//cout<<"@@we FirstTaken = " <<(int) FirstTaken<<endl;	
+					//	cout<<"@@we SecondTaken = " <<(int)  SecondTaken<<endl;	
+				}
+               // cout<<"we SecondTaken = " << ThirdTaken<<endl;
+                for (int k3  =   1; k3 <= REL[SecondTaken][0] ;k3++) {
+                    if( 0 == Card[REL[SecondTaken][k3]]) continue;
+                    ThirdTaken=TokenCardNo[couter]=REL[SecondTaken][k3];
+                    couter ++;
+                    Card[ThirdTaken]--;
+                    SetNode(pNode,couter,TokenCardNo,Card);
+                    //recoverCard(couter,TokenCardNo,Card);
+                    Card[ThirdTaken]++;
+                    couter--;
+                  //  cout<<"we ThirdTaken = " <<ThirdTaken<<endl;
                 }
-                 Card[REL[SecondTaken][k2]]++;
-               // recoverCard(Counter,TokenCardNo,Card);
-                Counter--;
+                 Card[SecondTaken]++;
+               // recoverCard(couter,TokenCardNo,Card);
+                couter--;
                
                
             }
-            Card[REL[i][k1]]++;
-            // recoverCard(Counter,TokenCardNo,Card);
-            Counter--;
+            Card[FirstTaken]++;
+            // recoverCard(couter,TokenCardNo,Card);
+            couter--;
         }
        
     }
@@ -210,9 +216,15 @@ int mulitArray2(char *Card,int startPos, Node * pNode ){
    
 }
 
- 
-char my_card[21]={0,2,2,1,0,2,0,0,2,0,1,1,1,0,1,0,0,0,1,0,1};
-char my_card2[21]={0,2,2,1,0,2,0,0,2,0,1,1,1,0,1,0,0,0,1,0,1};
+// // A= 5, B= 6  C= 7
+// A= 14, B= 15  C= 16
+// A= 14, B= 15  C= 16
+// A= 17, B= 19  C= 19
+// left card is:   12 ,  20 ,
+
+//char my_card[21]={0,2,2,1,0,2,0,0,2,0,1,1,1,0,1,0,0,0,1,0,1};
+char my_card[21]={0,0,0,0,0,1,1,1,0,0,0,0,1,0,2,2,2,1,0,2,1};
+char my_card2[21]={0,0,0,0,0,1,1,1,0,0,0,0,1,0,2,2,2,1,0,2,1};
 
 int main(int argc, const char * argv[])
 {

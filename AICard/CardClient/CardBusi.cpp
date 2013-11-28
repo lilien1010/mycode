@@ -1,10 +1,10 @@
 #include "StdAfx.h"
 #include "CardBusi.h"
-
+#include <sstream>
 
 //用来表示每一种牌和可以结合的拍的数组
 char REL[CARDNUM ][RELMAX]={
-	{		0	},
+	{0},
 	{4,1,2,3,11},       //xiao 1
 	{6,2,3,4,7,10,12},  //xiao 2
 	{4,3,4,5,13},       //xiao 3
@@ -16,12 +16,12 @@ char REL[CARDNUM ][RELMAX]={
 	{3,9,10,19},        //xiao 9
 	{2,10,20},
 	{3,11,12,13},       //da 1
-	{3,12,13,14,17,20},
+	{5,12,13,14,17,20},
 	{3,13,14,15},       //da 3
 	{3,14,15,16},
 	{3,15,16,17},       //da 5
 	{3,16,17,18},
-	{3,17,18,19,20},    //da 7
+	{4,17,18,19,20},    //da 7
 	{3,18,19,20},
 	{2,19,20},
 	{1,20}
@@ -56,11 +56,24 @@ int CardBusi::start()
 	return 1;
 }
 
-int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,Node*pNode)
+void CardBusi::GetAllCard(string&str){
+	
+	ostringstream ostr; 
+	 for(int i = 1 ; i <CARDNUM ; i++){
+		if(m_MyCard[i])
+			ostr<<i<<","<<endl; 
+	 }
+
+	str = ostr.str(); 
+}
+
+int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,int deep,Node*pNode)
 {
-	static int num= 0;
-	if(pNode==NULL && num==0){ 
+ 
+	if(pNode==NULL && deep==0){ 
 		pNode	=	m_CardParent;
+		memset(out,0,sizeof(CARDTYPE)*(CARDNUM-1));
+		memset(leftcard,0,sizeof(CARDTYPE)*(CARDNUM-1));
 	}
 	if(pNode ){
 		if(pNode->parent){
@@ -68,24 +81,24 @@ int CardBusi::GetOrderedCard(CARDTYPE *out,CARDTYPE*leftcard,Node*pNode)
 			m_MyCard[pNode->val[0]]--;
 			m_MyCard[pNode->val[1]]--;
 			m_MyCard[pNode->val[2]]--; 
-			out[num++]	=	pNode->val[0];
-			out[num++]	=	pNode->val[1];
-			out[num++]	=	pNode->val[2];
+			out[deep++]	=	pNode->val[0];
+			out[deep++]	=	pNode->val[1];
+			out[deep++]	=	pNode->val[2];
 		}
-		GetOrderedCard(out,leftcard,pNode->bestChildren);
+		GetOrderedCard(out,leftcard,deep,pNode->bestChildren);
 	}else{ 
 		for(int i = 1 ; i <CARDNUM ; i++){
 
 			if(m_MyCard[i]){
 				for(int k = 0,start=leftcard[0] ;k<m_MyCard[i];k++) 
 				{
-					 leftcard[start+k]=i;
+					 leftcard[start+k+1]=i;
 				}
 				leftcard[0] += m_MyCard[i];
 			}
 		}
 	}
-	return num;
+	return deep;
 
 }
 
@@ -121,7 +134,7 @@ int CardBusi::SetNode(Node* pNode,int Counter,char* zuhe,char*Card){
     ptNode->NodeType = 1;            //默认为叶子节点
  
     if(m_TakenCard < 12)
-        mulitArray(Card,0,ptNode);
+        mulitArray(Card,1,ptNode);
    
     if( m_TakenCard >= HOLDCARDNUM )
         return 0 ;
@@ -266,6 +279,12 @@ void CardBusi::showBestCard(Node*pNode,CARDTYPE *my_card){
 
 
 //计算三个牌的得分
+// A= 5, B= 6  C= 7 
+// A= 14, B= 15  C= 16 
+// A= 14, B= 15  C= 16 
+// A= 17, B= 19  C= 19 
+// left card is:   12 ,  20 ,
+// 20 ,
 int CardBusi::CalScore(CARDTYPE*zuhe){
 
 	int k1 = abs(zuhe[1] - zuhe[0]);

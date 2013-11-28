@@ -40,9 +40,9 @@ public:
 	
 
 	int start();
-
+	void GetAllCard(string&);
 	void RandCard();
-	int GetOrderedCard(CARDTYPE *out,CARDTYPE*sanpai,Node*pNode=NULL);
+	int GetOrderedCard(CARDTYPE *out,CARDTYPE*sanpai,int deep=0,Node*pNode=NULL);
 	void TakeShe(CARDTYPE *Card);
 	void TakeKan(CARDTYPE *Card);
 	int SetNode(Node* pNode,int Counter,CARDTYPE* zuhe,CARDTYPE*Card);

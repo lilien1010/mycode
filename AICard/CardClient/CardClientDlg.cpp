@@ -185,6 +185,8 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 	CardBusi  * pCard = new CardBusi;
 
 	pCard->start();
+		string show_str =""; 
+	pCard->GetAllCard(show_str );
 
 	CARDTYPE greatcard[CARDNUM]={0};
 	CARDTYPE leftcard[CARDNUM]={0};
@@ -194,8 +196,8 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
  
 	CString show = "",show2 = "";
 
-	SetDlgItemText(IDC_EDIT_INFOLIST,"");
-	for (int i =0 ; i < num;i+=3)
+	SetDlgItemText(IDC_EDIT_INFOLIST, show_str.c_str() );
+	for (int i =0 ; greatcard[i];i+=3)
 	{
 		 show.Format(" A= %d, B= %d  C= %d \r\n",greatcard[i],greatcard[i+1],greatcard[i+2]);
 		 show2 += show;
@@ -212,12 +214,13 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 		show.Format(" she= %d \r\n",pCard->m_She[i]);
 		show2 += show;	
 	}
+
 	for (int i = 0 ; i < pCard->m_Kannum ;i++)
 	{
 		show.Format("kan=  %d \r\n",pCard->m_Kan[i]);
 		show2 += show;
 	}
-	show2 += show;
+
 	SetDlgItemText(IDC_EDIT_INFOLIST,show2);
 
 
