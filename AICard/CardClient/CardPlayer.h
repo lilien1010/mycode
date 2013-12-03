@@ -3,6 +3,18 @@
 #include "CardBusi.h"
 #include "DeskBusi.h"
 
+//牌桌的状态
+enum PLAYER_STATUS{
+	CAN_HU	=0,		
+	CAN_PAO,
+	CAN_PEN,
+	CAN_CHI,
+	SHOWINGCARD,
+	TAKINGCARD,
+	WAIT_PLAYERCARD,
+	WAIT_DESKCARD,
+	IDLE
+};
 
 
 typedef struct  pai{
@@ -16,24 +28,30 @@ typedef struct  pai{
 
 class CardPlayer
 {
+	friend class DeskBusi;
+	friend class CardBusi;
 public:
 	CardPlayer(void);
 public:
 	~CardPlayer(void);
-
-	SetCard(CARDTYPE*Card,int CardNum);			//设置玩家的牌
-
-	SetPlayerID(int PlayerId);					//设置玩家ID
-
-	SetPlayerName(char* name);					//设置玩家name
 	
+	void SetCard(CARDTYPE*Card,int CardNum);			//设置玩家的牌
+
+	void SetPlayerID(int PlayerId);					//设置玩家ID
+
+	void SetPlayerName(char* name);					//设置玩家name
+	
+	void SetDesk(DeskBusi*);
+	
+	void ShowOneCard();							//打一张牌
+
 	int GetOneCardFromDesk(CARDTYPE id);		//从桌面抓一张牌
 
 
 	int GetOneCardFromPre(CARDTYPE id);		//从上家取一张牌
 	
-
-
+	int ReportStatus();		//报告状态
+ 
 	int CardChi(CARDTYPE);					//吃牌
 	
 	int CardPen(CARDTYPE);					//碰牌
@@ -48,11 +66,14 @@ public:
 
 	int CanChi(CARDTYPE);					//能否吃牌
 	
+
  	char		m_PlayerName[128];			// 玩家姓名
 	int			m_IsWinner;					//是否是上一盘的赢家，是的话15张牌
 	int			m_PlayerID;					//玩家ID 数据库
+	int			m_CanHoldCardNum;			//能拥有的牌的数量,庄家15长
+	PLAYER_STATUS	m_PlayerStatus;
 
-	DeskBusi * m_DeskID;					//玩家桌子ID
+	DeskBusi * m_pDesk;					//玩家桌子ID
 
 	CARDTYPE m_HandCard[MAX_CARD_NUM_ID];	//手上的个数牌	.[0] 表示个数
 
