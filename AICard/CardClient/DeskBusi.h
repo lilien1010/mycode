@@ -1,12 +1,21 @@
 #pragma once
-#include "CardBusi.h"
-#include "CardPlayer.h"
 
- 
+class CardPlayer;
+
 #define MAX_PLAYER_NUM 4 
 
 #define NORMAL_CARD_NUM 14
+
 #define WINNER_CARD_NUM 15
+
+#ifndef __DESKBUSI_H__ 
+#define __DESKBUSI_H__ 
+
+ 
+#include "CardPlayer.h"
+#include "CardBusi.h"
+ 
+
 //牌桌的状态
 enum DESK_STATUS{
 	WAIT_HU=0,		
@@ -25,7 +34,6 @@ typedef struct user_status{
 
 //牌桌对应每个玩家的状态
 
-
 class DeskBusi
 {	
 
@@ -40,7 +48,8 @@ public:
 	int InitDesk();
 
 	CardPlayer* JoinDesk(int PlaerID,char* PalerName);
-	void LevelDesk(CardPlayer* Plaer);
+	
+	void LevelDesk(CardPlayer * Player);
 
 	int StartGame();
 public:
@@ -56,8 +65,11 @@ public:
 
 	BOOL		m_bJoinable;			//是否允许加入
 
-	CardPlayer	m_Player[MAX_PLAYER_NUM];
+ 	CardPlayer	m_Player[MAX_PLAYER_NUM];
 	
 	BOOL		m_bSeatStatus[MAX_PLAYER_NUM];	//玩家为之状态，是否可以入座
 
 };
+
+
+#endif

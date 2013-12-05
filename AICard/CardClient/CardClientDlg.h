@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "DeskBusi.h"
 
 // CCardClientDlg 对话框
 class CCardClientDlg : public CDialog
@@ -21,6 +22,17 @@ public:
 // 实现
 protected:
 	HICON m_hIcon;
+	
+	DeskBusi m_MyDesk;
+
+
+
+
+
+
+
+
+
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();

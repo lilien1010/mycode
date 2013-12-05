@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __CARDBUSI_H__ 
+#define __CARDBUSI_H__ 
+
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(x)  {if(x){delete x;x=NULL;}}
 #endif
@@ -66,3 +69,5 @@ public:
 	int m_Kannum;
 
 };
+
+#endif

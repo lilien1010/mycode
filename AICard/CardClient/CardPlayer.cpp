@@ -33,11 +33,11 @@ void CardPlayer::SetCard(CARDTYPE*Card,int CardNum){
 void CardPlayer::ShowOneCard(CARDTYPE Card){
 	if(m_HandCard[Card] > 0 ){
 
-		m_DeskCard->ReportStatus(Card);
+		 ReportStatus(Card);
 
 	}
 }
-
+ 
 
 		//从桌面抓一张牌
 int  CardPlayer::GetOneCardFromDesk(CARDTYPE id){

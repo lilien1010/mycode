@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __CARDPLAYER_H__ 
+#define __CARDPLAYER_H__ 
+
 #include "CardBusi.h"
 #include "DeskBusi.h"
 
@@ -24,12 +27,11 @@ typedef struct  paipai{
 }PAI;
 
 
-
+class DeskBusi;
 
 class CardPlayer
 {
-	friend class DeskBusi;
-	friend class CardBusi;
+
 public:
 	CardPlayer(void);
 public:
@@ -43,14 +45,14 @@ public:
 	
 	void SetDesk(DeskBusi*);
 	
-	void ShowOneCard();							//打一张牌
+	void ShowOneCard(CARDTYPE Card);							//打一张牌
 
 	int GetOneCardFromDesk(CARDTYPE id);		//从桌面抓一张牌
 
 
 	int GetOneCardFromPre(CARDTYPE id);		//从上家取一张牌
 	
-	int ReportStatus();		//报告状态
+	int ReportStatus(CARDTYPE Card);		//报告状态
  
 	int CardChi(CARDTYPE);					//吃牌
 	
@@ -96,3 +98,5 @@ public:
 	CARDTYPE m_Long[3];		//龙
 	int		 m_LongNum;
 };
+
+#endif

@@ -28,6 +28,7 @@ int DeskBusi::InitDesk(){
 	{
 			m_DeskCard[i] =  4;
 	}
+	return 0;
 }
 
 //为num个玩家，分发牌
