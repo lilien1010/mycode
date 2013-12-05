@@ -41,4 +41,14 @@ public:
 	afx_msg void OnLbnSelchangeListHandcard();
 public:
 	CListBox m_HandCardList;
+public:
+	afx_msg void OnBnClickedButtonStartGame();
+public:
+	afx_msg void OnBnClickedButtonUseraJoin();
+public:
+	afx_msg void OnBnClickedButtonUserbJoin();
+public:
+	afx_msg void OnBnClickedButtonUsercJoin();
+public:
+	afx_msg void OnBnClickedButtonUserdJoin();
 };

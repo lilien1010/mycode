@@ -72,6 +72,11 @@ BEGIN_MESSAGE_MAP(CCardClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_CARDFROMDESK, &CCardClientDlg::OnBnClickedButtonCardfromdesk)
 	ON_BN_CLICKED(IDC_BUTTON_CARDFROMHAND, &CCardClientDlg::OnBnClickedButtonCardfromhand)
 	ON_LBN_SELCHANGE(IDC_LIST_HANDCARD, &CCardClientDlg::OnLbnSelchangeListHandcard)
+	ON_BN_CLICKED(IDC_BUTTON_START_GAME, &CCardClientDlg::OnBnClickedButtonStartGame)
+	ON_BN_CLICKED(IDC_BUTTON_USERA_JOIN, &CCardClientDlg::OnBnClickedButtonUseraJoin)
+	ON_BN_CLICKED(IDC_BUTTON_USERB_JOIN, &CCardClientDlg::OnBnClickedButtonUserbJoin)
+	ON_BN_CLICKED(IDC_BUTTON_USERC_JOIN, &CCardClientDlg::OnBnClickedButtonUsercJoin)
+	ON_BN_CLICKED(IDC_BUTTON_USERD_JOIN, &CCardClientDlg::OnBnClickedButtonUserdJoin)
 END_MESSAGE_MAP()
 
 
@@ -188,8 +193,8 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 		string show_str =""; 
 	pCard->GetAllCard(show_str );
 
-	CARDTYPE greatcard[CARDNUM]={0};
-	CARDTYPE leftcard[CARDNUM]={0};
+	CARDTYPE greatcard[MAX_CARD_NUM_ID]={0};
+	CARDTYPE leftcard[MAX_CARD_NUM_ID]={0};
  
 	int num = pCard->GetOrderedCard(greatcard,leftcard);
 	
@@ -232,4 +237,31 @@ void CCardClientDlg::OnLbnSelchangeListHandcard()
 	// TODO: 在此添加控件通知处理程序代码
 
 	 
+}
+
+void CCardClientDlg::OnBnClickedButtonStartGame()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+
+void CCardClientDlg::OnBnClickedButtonUseraJoin()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+void CCardClientDlg::OnBnClickedButtonUserbJoin()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+void CCardClientDlg::OnBnClickedButtonUsercJoin()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+void CCardClientDlg::OnBnClickedButtonUserdJoin()
+{
+	// TODO: 在此添加控件通知处理程序代码
 }

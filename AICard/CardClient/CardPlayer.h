@@ -17,7 +17,7 @@ enum PLAYER_STATUS{
 };
 
 
-typedef struct  pai{
+typedef struct  paipai{
 	int num;
 	int type;
 	CARDTYPE pai[4];
@@ -70,11 +70,14 @@ public:
  	char		m_PlayerName[128];			// 玩家姓名
 	int			m_IsWinner;					//是否是上一盘的赢家，是的话15张牌
 	int			m_PlayerID;					//玩家ID 数据库
+	int			m_PlayerNo;					//桌子序号，1 - 4
 	int			m_CanHoldCardNum;			//能拥有的牌的数量,庄家15长
+
+	BOOL		m_bReadytoPlay;				//准备开始
 	PLAYER_STATUS	m_PlayerStatus;
 
-	DeskBusi * m_pDesk;					//玩家桌子ID
-
+	DeskBusi	* m_pDesk;						//玩家桌子ID
+	int			m_DeskID;						//玩家桌子编号
 	CARDTYPE m_HandCard[MAX_CARD_NUM_ID];	//手上的个数牌	.[0] 表示个数
 
 	CARDTYPE m_DeskCard[MAX_CARD_NUM_ID];	//桌面的牌	.[0] 表示个数
@@ -91,5 +94,5 @@ public:
 	int		 m_SheNum;
 
 	CARDTYPE m_Long[3];		//龙
-	int		 m_SheNum;
+	int		 m_LongNum;
 };

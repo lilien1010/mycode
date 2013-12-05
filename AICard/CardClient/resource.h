@@ -14,6 +14,7 @@
 #define IDC_EDIT_PASSWRD                1004
 #define IDC_EDIT_PASSWORD               1004
 #define IDC_BUTTON_LOGOUT               1005
+#define IDC_BUTTON_USERA_JOIN           1006
 #define IDC_EDIT_INFOLIST               1007
 #define IDC_EDIT_USERA                  1008
 #define IDC_EDIT_USERB                  1009
@@ -22,6 +23,11 @@
 #define IDC_EDIT_ME                     1012
 #define IDC_BUTTON_CARDFROMHAND         1014
 #define IDC_BUTTON_CARDFROMDESK         1015
+#define IDC_BUTTON_USERB_JOIN           1018
+#define IDC_BUTTON_USERC_JOIN           1019
+#define IDC_BUTTON_USERD_JOIN           1020
+#define IDC_BUTTON_LOGIN2               1021
+#define IDC_BUTTON_START_GAME           1021
 
 // Next default values for new objects
 // 

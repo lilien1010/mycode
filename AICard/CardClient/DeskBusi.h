@@ -15,13 +15,13 @@ enum DESK_STATUS{
 	WAIT_CHI,
 	WAIT_SHOWCARD,
 	WAIT_TAKECARD,
-	IDLE
+	WAIT_IDLE
 };
 
 typedef struct user_status{
 	DESK_STATUS		status;
 	int				player;
-};
+}USER_STATUS;
 
 //牌桌对应每个玩家的状态
 
@@ -39,16 +39,25 @@ public:
  
 	int InitDesk();
 
+	CardPlayer* JoinDesk(int PlaerID,char* PalerName);
+	void LevelDesk(CardPlayer* Plaer);
+
+	int StartGame();
 public:
-	CARDTYPE m_DeskCard[TOTAL_CARD_NUM];
+	CARDTYPE m_DeskCard[MAX_CARD_NUM_ID];
 
-	int m_StartPlayerId;
+	int m_StartPlayerId;		
 
-	int m_DeskID;
+	int m_DeskID;				//当前桌子ID
 
 	int m_CurrentPlayerNum;
 
 	int m_AllowPlayerNum;
 
-	CardPlayer m_Player[MAX_PLAYER_NUM];
+	BOOL		m_bJoinable;			//是否允许加入
+
+	CardPlayer	m_Player[MAX_PLAYER_NUM];
+	
+	BOOL		m_bSeatStatus[MAX_PLAYER_NUM];	//玩家为之状态，是否可以入座
+
 };

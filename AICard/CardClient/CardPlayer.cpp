@@ -3,7 +3,8 @@
 
 CardPlayer::CardPlayer(void)
 {
-		m_CanHoldCardNum	= NORMAL_CARD_NUM;
+		m_CanHoldCardNum	=	NORMAL_CARD_NUM;
+		m_bReadytoPlay		=	0;
 }
 
 CardPlayer::~CardPlayer(void)
@@ -32,11 +33,9 @@ void CardPlayer::SetCard(CARDTYPE*Card,int CardNum){
 void CardPlayer::ShowOneCard(CARDTYPE Card){
 	if(m_HandCard[Card] > 0 ){
 
-		m_DeskCard->ReportStatus();
+		m_DeskCard->ReportStatus(Card);
 
 	}
-
-
 }
 
 
@@ -44,18 +43,21 @@ void CardPlayer::ShowOneCard(CARDTYPE Card){
 int  CardPlayer::GetOneCardFromDesk(CARDTYPE id){
 
 
-
+	return 0;
 }
 		//从上家取一张牌
 int  CardPlayer::GetOneCardFromPre(CARDTYPE id){
 
-
+	return 0;
 }
 
 
 
 
 int  CardPlayer::ReportStatus(CARDTYPE id){		//报告状态
+
+	return 0;
+
 }
 
 

@@ -9,8 +9,7 @@
 #define  MAX_HAND_CARD_NUM   14
 #define ZUHENUM    4
 #define RELMAX     7
-#define HOLDCARDNUM      15 
-#define MAX_CARD_NUM     4
+#define HOLDCARDNUM      15  
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -58,7 +57,7 @@ public:
 private:
 	void DeleteTree(Node*pNode);
 public:
-	CARDTYPE m_MyCard[CARDNUM];
+	CARDTYPE m_MyCard[MAX_CARD_NUM_ID];
 	int m_TakenCard;
 	CARDTYPE	m_She[3];	//
 	CARDTYPE	m_Kan[5];
