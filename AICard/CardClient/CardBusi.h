@@ -13,6 +13,13 @@
 #define ZUHENUM    4
 #define RELMAX     7
 #define HOLDCARDNUM      15  
+
+#define MAX_PLAYER_NUM 4 
+
+#define NORMAL_CARD_NUM 14
+
+#define WINNER_CARD_NUM 15
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

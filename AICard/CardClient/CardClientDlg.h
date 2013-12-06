@@ -4,6 +4,9 @@
 #pragma once
 
 #include "DeskBusi.h"
+#include "CardPlayer.h"
+#include "Resource.h"
+#define WM_INFOLIST	(WM_USER+23)
 
 // CCardClientDlg 对话框
 class CCardClientDlg : public CDialog
@@ -17,21 +20,24 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
-
+	
 
 // 实现
 protected:
 	HICON m_hIcon;
 	
-	DeskBusi m_MyDesk;
+	DeskBusi * m_MyDesk;
+	CardPlayer * m_PlayerA;
+	CardPlayer * m_PlayerB;
+	CardPlayer * m_PlayerC;
+	CardPlayer * m_PlayerD;
+
+	afx_msg LRESULT	OnInfoList(WPARAM wParam,LPARAM lParam);
 
 
 
 
-
-
-
-
+	CRITICAL_SECTION  m_Sec;
 
 
 	// 生成的消息映射函数

@@ -3,12 +3,17 @@
 
 DeskBusi::DeskBusi(void)
 {
-		InitDesk(); 
-		m_CurrentPlayerNum	=	4;
+		memset(m_infoList,0,LOG_MAX_DESCRIPTION_SIZE);
+		m_CurrentPlayerNum	=	4;	
+		//m_hWnd->unused		=	0;
 		m_bJoinable			=	TRUE;
 		m_AllowPlayerNum	=	0;
 		m_Player[0].m_CanHoldCardNum	=	WINNER_CARD_NUM;	//设置第一个入场的玩家为庄家
 		
+		InitDesk(); 
+		DistrubueCard(m_CurrentPlayerNum);
+
+
 		for(int i = 0 ; i< m_CurrentPlayerNum ; i++){
 			m_Player[i].m_PlayerNo= i;
 			m_Player[i].m_DeskID=m_DeskID;
@@ -58,19 +63,23 @@ void DeskBusi::DistrubueCard(int playernum){
 
 
 int DeskBusi::StartGame(){
-
-	for(int i = 0 ; i< m_CurrentPlayerNum ; i++){
-
+	 Showinfo("游戏开始");
+	for(int i = 0 ; i< m_CurrentPlayerNum ; i++){ 
 			if(m_Player[i].m_bReadytoPlay==FALSE)
 					return FALSE;
 	}
+	InitDesk();
+	DistrubueCard(m_CurrentPlayerNum);
 	return TRUE;
 
 }
 
 
-CardPlayer* DeskBusi::JoinDesk(int PlaerID,char*PalerName){
-	if(m_bJoinable == FALSE)	return NULL;
+CardPlayer* DeskBusi::JoinDesk(int PlaerID,const char *PalerName){
+
+	if(m_bJoinable == FALSE)
+		return NULL;
+	Showinfo("玩家:%s ID=%d ,加入了游戏",PalerName,PlaerID);
 	for(int i = 0 ; i< m_CurrentPlayerNum ; i++){ 
 		if(m_bSeatStatus[i]	==	TRUE){
  
@@ -94,4 +103,26 @@ void DeskBusi::LevelDesk(CardPlayer* Plaer){
 	m_CurrentPlayerNum--;
 	m_bJoinable	=	TRUE;
 
+	Showinfo("玩家:%s ID=%d ,位置编号为 离开了游戏桌",Plaer->m_PlayerName,Plaer->m_PlayerID,Plaer->m_PlayerNo);
 }
+
+
+void DeskBusi::SetWinHandle(HWND handle){
+	m_hWnd	=	handle;
+}
+
+void DeskBusi::Showinfo(const char * str,...){
+	//memcpy(m_infoList,str,strlen(str));
+ 
+ 
+	va_list argList;
+	va_start(argList, str);
+	vsnprintf(m_infoList,LOG_MAX_DESCRIPTION_SIZE, str, argList);
+	va_end(argList); 
+
+	::PostMessage(m_hWnd,WM_INFOLIST,NULL,(LPARAM)m_infoList);
+}
+
+
+
+

@@ -11,6 +11,10 @@ CardPlayer::~CardPlayer(void)
 {
 }
 
+void CardPlayer::SetPlayerID(int PlayerId)
+{
+		m_PlayerID	=	PlayerId;
+}
 
 void CardPlayer::SetDesk(DeskBusi*Desk){
 	
@@ -69,7 +73,7 @@ int  CardPlayer::ReportStatus(CARDTYPE id){		//报告状态
 
 
 //设置玩家name
-void  CardPlayer::SetPlayerName(char* PlayerName){
+void  CardPlayer::SetPlayerName(const char* PlayerName){
 	
 	memcpy(m_PlayerName,PlayerName,strlen(PlayerName));
 }

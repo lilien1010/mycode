@@ -4,7 +4,7 @@
 #define __CARDPLAYER_H__ 
 
 #include "CardBusi.h"
-#include "DeskBusi.h"
+ 
 
 //牌桌的状态
 enum PLAYER_STATUS{
@@ -41,7 +41,7 @@ public:
 
 	void SetPlayerID(int PlayerId);					//设置玩家ID
 
-	void SetPlayerName(char* name);					//设置玩家name
+	void SetPlayerName(const char* name);					//设置玩家name
 	
 	void SetDesk(DeskBusi*);
 	

@@ -1,24 +1,23 @@
 #pragma once
 
-class CardPlayer;
 
-#define MAX_PLAYER_NUM 4 
 
-#define NORMAL_CARD_NUM 14
 
-#define WINNER_CARD_NUM 15
 
 #ifndef __DESKBUSI_H__ 
 #define __DESKBUSI_H__ 
 
- 
-#include "CardPlayer.h"
+#include	"CardClientDlg.h"
+
 #include "CardBusi.h"
  
+#include "CardPlayer.h"
+
+#define LOG_MAX_DESCRIPTION_SIZE 1024
 
 //牌桌的状态
 enum DESK_STATUS{
-	WAIT_HU=0,		
+	WAIT_HU		=	0,		
 	WAIT_PAO,
 	WAIT_PEN,
 	WAIT_CHI,
@@ -33,27 +32,34 @@ typedef struct user_status{
 }USER_STATUS;
 
 //牌桌对应每个玩家的状态
+class CardPlayer;
 
 class DeskBusi
 {	
 
 public:
-	DeskBusi(void);
+	DeskBusi(void) ;
 public:
 	~DeskBusi(void);
 
 public:
 	void DistrubueCard(int playernum);
- 
+
+	void SetWinHandle(HWND handle);
+	void Showinfo(const char * str,...);
 	int InitDesk();
 
-	CardPlayer* JoinDesk(int PlaerID,char* PalerName);
+	CardPlayer* JoinDesk(int PlaerID,const char* PalerName);
 	
 	void LevelDesk(CardPlayer * Player);
 
 	int StartGame();
 public:
 	CARDTYPE m_DeskCard[MAX_CARD_NUM_ID];
+
+	char m_infoList[LOG_MAX_DESCRIPTION_SIZE];
+		
+	HWND m_hWnd;
 
 	int m_StartPlayerId;		
 

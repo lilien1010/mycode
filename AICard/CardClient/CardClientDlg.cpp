@@ -54,6 +54,16 @@ CCardClientDlg::CCardClientDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CCardClientDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	m_MyDesk	=	new DeskBusi();
+
+	 m_PlayerA	=	NULL;
+	 m_PlayerB	=	NULL;
+	 m_PlayerC	=	NULL;
+	 m_PlayerD	=	NULL;
+
+	 InitializeCriticalSection(&m_Sec);
+
 }
 
 void CCardClientDlg::DoDataExchange(CDataExchange* pDX)
@@ -67,6 +77,8 @@ BEGIN_MESSAGE_MAP(CCardClientDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
+ 
+	ON_MESSAGE(WM_INFOLIST, &CCardClientDlg::OnInfoList)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN, &CCardClientDlg::OnBnClickedButtonLogin)
 	ON_BN_CLICKED(IDC_BUTTON_LOGOUT, &CCardClientDlg::OnBnClickedButtonLogout)
 	ON_BN_CLICKED(IDC_BUTTON_CARDFROMDESK, &CCardClientDlg::OnBnClickedButtonCardfromdesk)
@@ -115,6 +127,8 @@ BOOL CCardClientDlg::OnInitDialog()
 	SetDlgItemText(IDC_EDIT_USERNAME, "totti@sina.com");
 	SetDlgItemText(IDC_EDIT_PASSWORD, "123456");
 
+
+	m_MyDesk->SetWinHandle(this->m_hWnd);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -184,6 +198,22 @@ void CCardClientDlg::OnBnClickedButtonCardfromdesk()
 	m_HandCardList.AddString(_T("asdf"));
 }
 
+LRESULT	CCardClientDlg::OnInfoList(WPARAM wParam,LPARAM lParam){
+
+
+	EnterCriticalSection(&m_Sec);
+	
+	CString show2	=  "";
+	GetDlgItemText(IDC_EDIT_INFOLIST,show2);
+	show2	+=CString("\r\n")+(LPCTSTR)lParam;
+	SetDlgItemText(IDC_EDIT_INFOLIST,show2); 
+
+	LeaveCriticalSection(&m_Sec);
+		
+	return NULL;
+}
+
+
 void CCardClientDlg::OnBnClickedButtonCardfromhand()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -235,6 +265,8 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 void CCardClientDlg::OnLbnSelchangeListHandcard()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	
+
 
 	 
 }
@@ -242,6 +274,13 @@ void CCardClientDlg::OnLbnSelchangeListHandcard()
 void CCardClientDlg::OnBnClickedButtonStartGame()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	if(TRUE == m_MyDesk->StartGame() ){
+
+		MessageBox("游戏开始失败！！！！");
+	}else{
+		MessageBox("游戏开始成功！！！！");
+	}
+
 }
 
 
@@ -249,19 +288,30 @@ void CCardClientDlg::OnBnClickedButtonStartGame()
 void CCardClientDlg::OnBnClickedButtonUseraJoin()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	string name = "玩家A";
+	int		id  = 10000;
+
+	m_PlayerA	=	m_MyDesk->JoinDesk(id,name.c_str());
 }
 
 void CCardClientDlg::OnBnClickedButtonUserbJoin()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	string name = "玩家C";
+	int		id  = 10001;
+	m_PlayerB	=	m_MyDesk->JoinDesk(id,name.c_str());
 }
 
 void CCardClientDlg::OnBnClickedButtonUsercJoin()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	string name = "玩家C";
+	int		id  = 10002;
+	m_PlayerC	=	m_MyDesk->JoinDesk(id,name.c_str());
 }
 
 void CCardClientDlg::OnBnClickedButtonUserdJoin()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	string name = "玩家D";
+	int		id  = 10003;
+
+	m_PlayerD	=	m_MyDesk->JoinDesk(id,name.c_str());
 }

@@ -140,13 +140,13 @@ BEGIN
     BEGIN
         BLOCK "080403a8"
         BEGIN
-            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "Companyname.c_str()", "TODO: <公司名>"
             VALUE "FileDescription", "TODO: <文件说明>"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "CardClient.exe"
+            VALUE "Internalname.c_str()", "CardClient.exe"
             VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
-            VALUE "OriginalFilename", "CardClient.exe"
-            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "OriginalFilename.c_str()", "CardClient.exe"
+            VALUE "Productname.c_str()", "TODO: <产品名>"
             VALUE "ProductVersion", "1.0.0.1"
         END
     END
