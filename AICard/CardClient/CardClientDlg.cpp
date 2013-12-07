@@ -127,8 +127,7 @@ BOOL CCardClientDlg::OnInitDialog()
 	SetDlgItemText(IDC_EDIT_USERNAME, "totti@sina.com");
 	SetDlgItemText(IDC_EDIT_PASSWORD, "123456");
 
-
-	m_MyDesk->SetWinHandle(this->m_hWnd);
+ 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -172,6 +171,8 @@ void CCardClientDlg::OnPaint()
 	{
 		CDialog::OnPaint();
 	}
+
+	m_MyDesk->SetWinHandle(this->m_hWnd);
 }
 
 //当用户拖动最小化窗口时系统调用此函数取得光标显示。
@@ -262,12 +263,30 @@ void CCardClientDlg::OnBnClickedButtonCardfromhand()
 	SAFE_DELETE(pCard);
 }
 
+CString CCardClientDlg::GetCardStr(CARDTYPE *card,int Num){
+	CString show = "";
+	CString show2 = "";
+	int addnum	=	0;
+	for (int i =1 ; i<  Num;i++)
+	{	
+		if(card[i]==0) continue; 
+
+		for(int k = 0 ;k<card[i];k++) 
+		{ 
+			addnum++;	
+			show.Format("%d,",i); 
+			if(addnum%3==0)	show2 += "\r\n";
+			show2 += show;
+		} 
+	} 
+	return show2;
+}
+
 void CCardClientDlg::OnLbnSelchangeListHandcard()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	
-
-
+ 
 	 
 }
 
@@ -275,12 +294,24 @@ void CCardClientDlg::OnBnClickedButtonStartGame()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	if(TRUE == m_MyDesk->StartGame() ){
-
-		MessageBox("游戏开始失败！！！！");
+		char* str = "游戏开始成功！！！！";
+		SendMessage(WM_INFOLIST,NULL,(LPARAM)str);
 	}else{
-		MessageBox("游戏开始成功！！！！");
+		char* str2 = "游戏开始失败！！！！";
+		SendMessage(WM_INFOLIST,NULL,(LPARAM)str2);  
+
 	}
 
+
+	//将大家的牌显示出来
+	SetDlgItemText(IDC_EDIT_USERA,this->GetCardStr(m_PlayerA->GetCard(),MAX_CARD_NUM_ID));
+	
+	SetDlgItemText(IDC_EDIT_USERB,this->GetCardStr(m_PlayerB->GetCard(),MAX_CARD_NUM_ID));
+
+	SetDlgItemText(IDC_EDIT_USERC,this->GetCardStr(m_PlayerC->GetCard(),MAX_CARD_NUM_ID));
+
+
+	SetDlgItemText(IDC_EDIT_ME,this->GetCardStr(m_PlayerD->GetCard(),MAX_CARD_NUM_ID));
 }
 
 
@@ -296,7 +327,7 @@ void CCardClientDlg::OnBnClickedButtonUseraJoin()
 
 void CCardClientDlg::OnBnClickedButtonUserbJoin()
 {
-	string name = "玩家C";
+	string name = "玩家b";
 	int		id  = 10001;
 	m_PlayerB	=	m_MyDesk->JoinDesk(id,name.c_str());
 }

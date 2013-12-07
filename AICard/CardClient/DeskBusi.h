@@ -65,9 +65,9 @@ public:
 
 	int m_DeskID;				//当前桌子ID
 
-	int m_CurrentPlayerNum;
+	int m_AllowedPlayerNum;		//允许加入的玩家数量
 
-	int m_AllowPlayerNum;
+	int m_EmptySeatNum;		//空位置数量
 
 	BOOL		m_bJoinable;			//是否允许加入
 

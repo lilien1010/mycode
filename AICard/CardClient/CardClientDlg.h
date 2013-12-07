@@ -20,8 +20,7 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
-	
-
+	CString GetCardStr(CARDTYPE *card,int Num);
 // 实现
 protected:
 	HICON m_hIcon;

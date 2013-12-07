@@ -4,7 +4,11 @@
 CardPlayer::CardPlayer(void)
 {
 		m_CanHoldCardNum	=	NORMAL_CARD_NUM;
-		m_bReadytoPlay		=	0;
+		m_bReadytoPlay		=	FALSE;
+		memset(m_CardStr,0,sizeof(m_CardStr));
+	    memset(m_PlayerName,0,sizeof(m_PlayerName));
+
+
 }
 
 CardPlayer::~CardPlayer(void)
@@ -17,18 +21,18 @@ void CardPlayer::SetPlayerID(int PlayerId)
 }
 
 void CardPlayer::SetDesk(DeskBusi*Desk){
-	
+
 	this->m_pDesk	=	Desk;
 
 }
 
 void CardPlayer::SetCard(CARDTYPE*Card,int CardNum){
 
-	//memcpy(m_HandCard,Card,sizeof(CARDTYPE)*CardNum);
+	memcpy(m_HandCard,Card,sizeof(CARDTYPE)*CardNum);
 	
-	for(int i=1;i<=CardNum;i++){
-			m_HandCard[i]=Card[i];
-	} 
+	//for(int i=1;i< CardNum;i++){
+	//		m_HandCard[i]=Card[i];
+	//} 
 }
 
 
@@ -41,8 +45,14 @@ void CardPlayer::ShowOneCard(CARDTYPE Card){
 
 	}
 }
- 
 
+CARDTYPE* CardPlayer::GetCard(){ 
+	return this->m_HandCard;	 
+}
+
+int CardPlayer::GetCanHoldCard(){ 
+	return this->m_CanHoldCardNum;	 
+}
 		//从桌面抓一张牌
 int  CardPlayer::GetOneCardFromDesk(CARDTYPE id){
 

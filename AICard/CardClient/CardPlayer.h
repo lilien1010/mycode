@@ -48,8 +48,10 @@ public:
 	void ShowOneCard(CARDTYPE Card);							//打一张牌
 
 	int GetOneCardFromDesk(CARDTYPE id);		//从桌面抓一张牌
+	
+	CARDTYPE* GetCard();
 
-
+	int GetCanHoldCard();
 	int GetOneCardFromPre(CARDTYPE id);		//从上家取一张牌
 	
 	int ReportStatus(CARDTYPE Card);		//报告状态
@@ -68,7 +70,7 @@ public:
 
 	int CanChi(CARDTYPE);					//能否吃牌
 	
-
+ 	char		m_CardStr[128];			// 玩家姓名
  	char		m_PlayerName[128];			// 玩家姓名
 	int			m_IsWinner;					//是否是上一盘的赢家，是的话15张牌
 	int			m_PlayerID;					//玩家ID 数据库
