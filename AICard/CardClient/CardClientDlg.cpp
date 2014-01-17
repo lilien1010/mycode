@@ -89,6 +89,7 @@ BEGIN_MESSAGE_MAP(CCardClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_USERB_JOIN, &CCardClientDlg::OnBnClickedButtonUserbJoin)
 	ON_BN_CLICKED(IDC_BUTTON_USERC_JOIN, &CCardClientDlg::OnBnClickedButtonUsercJoin)
 	ON_BN_CLICKED(IDC_BUTTON_USERD_JOIN, &CCardClientDlg::OnBnClickedButtonUserdJoin)
+	ON_BN_CLICKED(IDC_BUTTON_USER_JOIN_ALL, &CCardClientDlg::OnBnClickedButtonUserJoinAll)
 END_MESSAGE_MAP()
 
 
@@ -302,6 +303,8 @@ void CCardClientDlg::OnBnClickedButtonStartGame()
 
 	}
 
+	CString deskcard= this->GetCardStr(m_MyDesk->m_DeskCard,MAX_CARD_NUM_ID);
+	SendMessage(WM_INFOLIST,NULL,(LPARAM)(LPCTSTR)deskcard);  
 
 	//将大家的牌显示出来
 	SetDlgItemText(IDC_EDIT_USERA,this->GetCardStr(m_PlayerA->GetCard(),MAX_CARD_NUM_ID));
@@ -345,4 +348,13 @@ void CCardClientDlg::OnBnClickedButtonUserdJoin()
 	int		id  = 10003;
 
 	m_PlayerD	=	m_MyDesk->JoinDesk(id,name.c_str());
+}
+
+void CCardClientDlg::OnBnClickedButtonUserJoinAll()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	OnBnClickedButtonUseraJoin();Sleep(20);
+	OnBnClickedButtonUserbJoin();Sleep(20);
+	OnBnClickedButtonUsercJoin();Sleep(20);
+	OnBnClickedButtonUserdJoin();Sleep(20);
 }

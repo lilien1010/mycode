@@ -28,6 +28,8 @@
 #define IDC_BUTTON_USERD_JOIN           1020
 #define IDC_BUTTON_LOGIN2               1021
 #define IDC_BUTTON_START_GAME           1021
+#define IDC_BUTTON_USERB_JOIN2          1022
+#define IDC_BUTTON_USER_JOIN_ALL        1022
 
 // Next default values for new objects
 // 

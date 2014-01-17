@@ -68,4 +68,6 @@ public:
 	afx_msg void OnBnClickedButtonUsercJoin();
 public:
 	afx_msg void OnBnClickedButtonUserdJoin();
+public:
+	afx_msg void OnBnClickedButtonUserJoinAll();
 };
