@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibcurlTest", "LibcurlTest.vcproj", "{849F1969-59B9-443E-A487-38BD58D588E3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qianpiao", "..\qianpiao\qianpiao.vcproj", "{BE5BF695-F0DE-46D4-9F58-CF3F80005415}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{849F1969-59B9-443E-A487-38BD58D588E3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{849F1969-59B9-443E-A487-38BD58D588E3}.Debug|Win32.Build.0 = Debug|Win32
+		{849F1969-59B9-443E-A487-38BD58D588E3}.Release|Win32.ActiveCfg = Release|Win32
+		{849F1969-59B9-443E-A487-38BD58D588E3}.Release|Win32.Build.0 = Release|Win32
+		{BE5BF695-F0DE-46D4-9F58-CF3F80005415}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BE5BF695-F0DE-46D4-9F58-CF3F80005415}.Debug|Win32.Build.0 = Debug|Win32
+		{BE5BF695-F0DE-46D4-9F58-CF3F80005415}.Release|Win32.ActiveCfg = Release|Win32
+		{BE5BF695-F0DE-46D4-9F58-CF3F80005415}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
